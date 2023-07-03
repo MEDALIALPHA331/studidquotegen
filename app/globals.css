@@ -81,3 +81,8 @@
   --background: black;
   --foreground: white;
 }
+
+::selection {
+  color: white;
+  background: #6366f1;
+}

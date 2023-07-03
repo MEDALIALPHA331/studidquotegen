@@ -1,7 +1,8 @@
 import { Indie_Flower } from "next/font/google";
 import { Inter } from "next/font/google";
 import { IRandomQuote } from "./types/public_apis";
-import ThemeSwitch from "./theme";
+import ThemeSwitch from "./components/theme";
+import Nav from "./components/Nav";
 
 const indie = Indie_Flower({
   weight: "400",
@@ -12,27 +13,26 @@ const indie = Indie_Flower({
 });
 
 export default async function Home() {
-  //! could throw
   const { content: quote } = await getRandomQuote();
 
   return (
-    <>
-      <ThemeSwitch />
-      <main
-        className={`${indie.className} flex min-h-screen items-center justify-center`}
+    <main className={`flex min-h-screen flex-col gap-4 py-2`}>
+      <Nav />
+      <div
+        className={` ${indie.className} flex min-h-[80vh] items-center justify-center`}
       >
-        <div>
-          <h1 className="bg-gradient-to-br from-teal-500 to-pink-400 bg-clip-text text-4xl text-transparent">
-            {quote}
-          </h1>
-        </div>
-      </main>
-    </>
+        <h1 className="max-w-[50ch] bg-gradient-to-br from-teal-500 to-pink-400 bg-clip-text text-4xl text-transparent">
+          {quote}
+        </h1>
+      </div>
+    </main>
   );
 }
 
 async function getRandomQuote(): Promise<IRandomQuote> {
-  const res = await fetch("https://api.quotable.io/random");
+  const res = await fetch("https://api.quotable.io/random", {
+    // cache: "no-store",
+  });
 
   if (!res.ok) {
     throw new Error("Something went wrong requesting quote");
