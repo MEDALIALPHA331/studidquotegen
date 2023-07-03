@@ -35,8 +35,6 @@ async function Quote() {
       <h1 className="max-w-[50ch] bg-gradient-to-br from-teal-500 to-pink-400 bg-clip-text text-4xl text-transparent">
         {quote}
       </h1>
-
-      <h2 className="text-4xl text-white dark:text-red-400">guc</h2>
     </div>
   );
 }
