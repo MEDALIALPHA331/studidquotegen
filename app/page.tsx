@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { IRandomQuote } from "./types/public_apis";
 import ThemeSwitch from "./components/theme";
 import Nav from "./components/Nav";
+import { Suspense } from "react";
 
 const indie = Indie_Flower({
   weight: "400",
@@ -13,19 +14,28 @@ const indie = Indie_Flower({
 });
 
 export default async function Home() {
-  const { content: quote } = await getRandomQuote();
-
   return (
     <main className={`flex min-h-screen flex-col gap-4 py-2`}>
       <Nav />
-      <div
-        className={` ${indie.className} flex min-h-[80vh] items-center justify-center`}
-      >
-        <h1 className="max-w-[50ch] bg-gradient-to-br from-teal-500 to-pink-400 bg-clip-text text-4xl text-transparent">
-          {quote}
-        </h1>
-      </div>
+
+      <Suspense fallback={<h1>Loading...</h1>}>
+        <Quote />
+      </Suspense>
     </main>
+  );
+}
+
+async function Quote() {
+  const { content: quote } = await getRandomQuote();
+
+  return (
+    <div
+      className={` ${indie.className} flex min-h-[80vh] items-center justify-center`}
+    >
+      <h1 className="max-w-[50ch] bg-gradient-to-br from-teal-500 to-pink-400 bg-clip-text text-4xl text-transparent">
+        {quote}
+      </h1>
+    </div>
   );
 }
 
